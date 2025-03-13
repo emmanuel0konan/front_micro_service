@@ -25,6 +25,7 @@ import { Request, Response } from 'express';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUser } from './get_user.decorator';
+import { log } from 'node:console';
 @Controller()
 export class AppController {
   constructor(
@@ -80,6 +81,18 @@ export class AppController {
   @Get('service/:id')
   async get_service(@Param('id') id: string) {
     return await this.userService.getService(id);
+  }
+  @Put('/deleteservice/:id')
+  async deleteservice(
+    @Param('id') id: string,
+    @Res() response,
+    @Body('serv') serv: object,
+  ) {
+    console.log('hello');
+
+    const data = await this.userService.deleteService(id, serv);
+    console.log(data);
+    return response.status(HttpStatus.OK).json(data);
   }
   @UseGuards(JwtAuthGuard)
   @Get('me')

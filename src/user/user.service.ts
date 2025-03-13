@@ -72,6 +72,14 @@ export class UserService {
       { $push: { service: service } },
     );
   }
+  async deleteService(id: string, service: object): Promise<any> {
+    console.log('service');
+    console.log(id, service);
+    return await this.UserModel.findOneAndUpdate(
+      { _id: id },
+      { $pull: { service: service } },
+    );
+  }
   async getService(id: string): Promise<any> {
     return this.UserModel.findById(id);
   }
@@ -88,9 +96,9 @@ export class UserService {
     if (CreateUserDto.password) {
       const salt = await bcrypt.genSalt();
       hash = await bcrypt.hash(CreateUserDto.password, salt);
+      CreateUserDto.password = hash;
     }
     console.log(hash);
-    CreateUserDto.password = hash;
     if (exist_username && exist_username.username != username) {
       throw new ConflictException('username already exist');
     }

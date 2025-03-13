@@ -12,6 +12,9 @@ import { User, UserSchema } from './schemas/user.schema';
 import { JwtStrategy } from './jwt.strategy';
 @Module({
   imports: [
+    // MongooseModule.forRoot(
+    //   'mongodb+srv://kingkryptou:0000@dashboard.we9ua.mongodb.net/?retryWrites=true&w=majority&appName=dashboard',
+    // ),
     MongooseModule.forRoot('mongodb://localhost:27017/dashboard'),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
